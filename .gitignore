@@ -1,0 +1,8 @@
+# Project ignores
+__pycache__/
+*.pyc
+.env
+secrets_local.py
+.qdrant*
+.qdrant/**
+.gdown/**

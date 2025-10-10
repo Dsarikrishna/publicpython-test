@@ -1,0 +1,27 @@
+services:
+  app:
+    build: .
+    image: grocery-chatbot:latest
+    container_name: grocery-chatbot
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: grocery-chatbot-tunnel
+    depends_on:
+      - app
+    command: tunnel --no-autoupdate --url http://app:8501
+    restart: unless-stopped
